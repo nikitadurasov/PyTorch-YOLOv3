@@ -7,6 +7,9 @@ from utils.datasets import *
 from utils.parse_config import *
 from test import evaluate
 
+import warnings
+warnings.filterwarnings("ignore")
+
 from terminaltables import AsciiTable
 
 import os
@@ -74,7 +77,7 @@ if __name__ == "__main__":
         collate_fn=dataset.collate_fn,
     )
 
-    optimizer = torch.optim.Adam(model.parameters())
+    optimizer = torch.optim.Adam(model.parameters(), lr=5e-3)
 
     metrics = [
         "grid_size",
