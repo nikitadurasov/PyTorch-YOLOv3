@@ -10,3 +10,12 @@ backup
 weights/*.weights
 __pycache__
 checkpoints
+
+include/
+lib/
+lib64
+bin/
+logs/
+__pycache__
+data/custom/
+pyvenv.cfg
