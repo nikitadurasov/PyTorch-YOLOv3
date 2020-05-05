@@ -1,1 +1,16 @@
-train
+pedestrian
+rider
+person-group-far-away
+rider+vehicle-group-far-away
+bicycle-group
+buggy-group
+motorbike-group
+scooter-group
+tricycle-group
+wheelchair-group
+bicycle
+buggy
+motorbike
+scooter
+tricycle
+wheelchair
