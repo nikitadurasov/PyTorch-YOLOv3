@@ -4,11 +4,10 @@ import os
 import sys
 import numpy as np
 from PIL import Image
-import warnings
 import torch
 import torch.nn.functional as F
 
-from utils.augmentations import horisontal_flip
+from utils.augmentations import horizontal_flip, color_jitter
 from torch.utils.data import Dataset
 import torchvision.transforms as transforms
 
@@ -105,9 +104,7 @@ class ListDataset(Dataset):
 
         targets = None
         if os.path.exists(label_path):
-            with warnings.catch_warnings():
-                warnings.simplefilter("ignore")
-                boxes = torch.from_numpy(np.loadtxt(label_path).reshape(-1, 5))
+            boxes = torch.from_numpy(np.loadtxt(label_path).reshape(-1, 5))
             # Extract coordinates for unpadded + unscaled image
             x1 = w_factor * (boxes[:, 1] - boxes[:, 3] / 2)
             y1 = h_factor * (boxes[:, 2] - boxes[:, 4] / 2)
@@ -129,8 +126,16 @@ class ListDataset(Dataset):
 
         # Apply augmentations
         if self.augment:
+            
             if np.random.random() < 0.5:
-                img, targets = horisontal_flip(img, targets)
+                img = transforms.ToPILImage(mode='RGB')(img)
+                img, targets = horizontal_flip(img, targets)
+                img = transforms.ToTensor()(img)
+                
+            if np.random.random() < 0.5:
+                img = transforms.ToPILImage(mode='RGB')(img)
+                img, targets = color_jitter(img, targets)
+                img = transforms.ToTensor()(img)
 
         return img_path, img, targets
 
