@@ -78,7 +78,7 @@ if __name__ == "__main__":
         collate_fn=dataset.collate_fn,
     )
 
-    optimizer = torch.optim.Adam(model.parameters(), lr=5e-3)
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-2)
 
     metrics = [
         "grid_size",
@@ -98,6 +98,10 @@ if __name__ == "__main__":
     ]
 
     for epoch in range(opt.epochs):
+        
+        if epoch > 50:
+            torch.optim.Adam.lr = 1e-3
+        
         model.train()
         start_time = time.time()
         for batch_i, (_, imgs, targets) in enumerate(dataloader):
