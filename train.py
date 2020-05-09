@@ -43,6 +43,8 @@ if __name__ == "__main__":
     opt = parser.parse_args()
     print(opt)
 
+    assert opt.img_size % 32 == 0, "image size should be divisible by 32"
+
     logger = Logger("logs")
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -99,7 +101,7 @@ if __name__ == "__main__":
 
     for epoch in range(opt.epochs):
         
-        if epoch > 50:
+        if epoch > 20:
             torch.optim.Adam.lr = 1e-3
         
         model.train()
@@ -155,32 +157,37 @@ if __name__ == "__main__":
 
             model.seen += imgs.size(0)
 
-        if epoch % opt.evaluation_interval == 0:
+        if (epoch + 1) % opt.evaluation_interval == 0:
             print("\n---- Evaluating Model ----")
             # Evaluate the model on the validation set
-            precision, recall, AP, f1, ap_class = evaluate(
-                model,
-                path=valid_path,
-                iou_thres=0.5,
-                conf_thres=0.5,
-                nms_thres=0.5,
-                img_size=opt.img_size,
-                batch_size=8,
-            )
-            evaluation_metrics = [
-                ("val_precision", precision.mean()),
-                ("val_recall", recall.mean()),
-                ("val_mAP", AP.mean()),
-                ("val_f1", f1.mean()),
-            ]
-            logger.list_of_scalars_summary(evaluation_metrics, epoch)
+            
+            try:
+                precision, recall, AP, f1, ap_class = evaluate(
+                    model,
+                    path=valid_path,
+                    iou_thres=0.5,
+                    conf_thres=0.5,
+                    nms_thres=0.5,
+                    img_size=opt.img_size,
+                    batch_size=4,
+                )
+                evaluation_metrics = [
+                    ("val_precision", precision.mean()),
+                    ("val_recall", recall.mean()),
+                    ("val_mAP", AP.mean()),
+                    ("val_f1", f1.mean()),
+                ]
+                logger.list_of_scalars_summary(evaluation_metrics, epoch)
 
-            # Print class APs and mAP
-            ap_table = [["Index", "Class name", "AP"]]
-            for i, c in enumerate(ap_class):
-                ap_table += [[c, class_names[c], "%.5f" % AP[i]]]
-            print(AsciiTable(ap_table).table)
-            print(f"---- mAP {AP.mean()}")
-
+                # Print class APs and mAP
+                ap_table = [["Index", "Class name", "AP"]]
+                for i, c in enumerate(ap_class):
+                    ap_table += [[c, class_names[c], "%.5f" % AP[i]]]
+                print(AsciiTable(ap_table).table)
+                print(f"---- mAP {AP.mean()}")
+           
+            except ValueError:
+                print("FAILED TO CALCULATE MAP")
+                
         if epoch % opt.checkpoint_interval == 0:
             torch.save(model.state_dict(), f"checkpoints/yolov3_ckpt_%d.pth" % epoch)
