@@ -243,6 +243,12 @@ class Darknet(nn.Module):
         self.img_size = img_size
         self.seen = 0
         self.header_info = np.array([0, 0, 0, self.seen, 0], dtype=np.int32)
+        
+        # really bad choice to code it this way, but the fastest one #
+        ##############################################################
+        self.yolo_weights = [1, 1, 1] #[0.197, 0.287, 0.516]
+        self.index = 0
+        ##############################################################
 
     def forward(self, x, targets=None):
         img_dim = x.shape[2]
@@ -258,7 +264,11 @@ class Darknet(nn.Module):
                 x = layer_outputs[-1] + layer_outputs[layer_i]
             elif module_def["type"] == "yolo":
                 x, layer_loss = module[0](x, targets, img_dim)
-                loss += layer_loss
+                # adding different weights to different parts of model #
+                ########################################################
+                loss += self.yolo_weights[self.index] * layer_loss
+                self.index = (self.index + 1) % len(self.yolo_weights)
+                ########################################################
                 yolo_outputs.append(x)
             layer_outputs.append(x)
         yolo_outputs = to_cpu(torch.cat(yolo_outputs, 1))
