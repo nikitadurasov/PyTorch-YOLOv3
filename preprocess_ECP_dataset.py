@@ -1,6 +1,5 @@
 import shutil, os
 from skimage.io import imread, imsave
-from tqdm import tqdm_notebook as tqdm
 from shutil import copyfile
 import json
 
@@ -47,14 +46,14 @@ if not os.path.exists("data/custom/images/") and not os.path.exists("data/custom
     os.makedirs("data/custom/labels/")
     
 ######## copy data to images/ ########
-for i in tqdm(range(len(day_city_names))):
+for i in range(len(day_city_names)):
     for each in sorted(os.listdir(DAY_DATA_PATH + day_city_names[i])):
         src_path = os.path.join(DAY_DATA_PATH, day_city_names[i], each)
         dest_path = os.path.join(SAVE_DATA_PATH, "day_" + each)
         copyfile(src_path, dest_path)
                 
 ######## copy data to images/ ########
-for i in tqdm(range(len(night_city_names))):
+for i in range(len(night_city_names)):
     for each in sorted(os.listdir(NIGHT_DATA_PATH + night_city_names[i])):
         src_path = os.path.join(NIGHT_DATA_PATH, night_city_names[i], each)
         dest_path = os.path.join(SAVE_DATA_PATH, "night_" + each)
@@ -99,7 +98,7 @@ for each in posible_classes:
 f.close()
 
 ######## make ECP labels compatible with repo format ########
-for i in tqdm(range(len(day_city_names))):
+for i in range(len(day_city_names)):
     for each in sorted(os.listdir(DAY_LABELS_PATH + day_city_names[i])):
         file_name = os.path.join(DAY_LABELS_PATH, day_city_names[i], each)
         with open(file_name) as json_file:
@@ -120,7 +119,7 @@ for i in tqdm(range(len(day_city_names))):
             f.close()
             
 ######## make ECP labels compatible with repo format ########
-for i in tqdm(range(len(night_city_names))):
+for i in range(len(night_city_names)):
     for each in sorted(os.listdir(NIGHT_LABELS_PATH + night_city_names[i])):
         file_name = os.path.join(NIGHT_LABELS_PATH, night_city_names[i], each)
         with open(file_name) as json_file:
