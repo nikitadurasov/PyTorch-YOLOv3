@@ -7,7 +7,11 @@ For training you need Images Train (Day/Night), Annotations Train (Day/Night) fr
 
     $ wget --auth-no-challenge --user=USER --password=PASS --output-document=FILE
     
-Unzip downloaded .zip files and place unzipped ECP directory into this repo root. 
+Unzip downloaded .zip files and place unzipped ECP directory into this repo root or just use 
+
+    $ bash ECP_preprocessing.sh USER PASS
+    
+that do both downloading and unzipping.
 
 ##### Preprocess ECP data
 
