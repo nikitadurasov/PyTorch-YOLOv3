@@ -85,7 +85,7 @@ f1.close()
 f2.close()
 
 ######## writing class.names ########
-f = open("classes.names.txt","w+")
+f = open("classes.names","w+")
 
 for each in posible_classes:
     f.write(each + '\n')
