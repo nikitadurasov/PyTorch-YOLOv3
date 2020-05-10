@@ -7,24 +7,13 @@ For training you need Images Train (Day/Night), Annotations Train (Day/Night) fr
 
     $ wget --auth-no-challenge --user=USER --password=PASS --output-document=FILE
     
-Unzip downloaded .zip files and place unzipped ECP directory into this repo root. Then run [preprocess_ECP_dataset.py](https://github.com/nikitadurasov/PyTorch-YOLOv3/blob/master/preprocess_ECP_dataset.py).
+Unzip downloaded .zip files and place unzipped ECP directory into this repo root. 
 
-This script will generate several files and directories: 
-```bash
-PyTorch-YOLOv3 
-├── images/
-├── labels/
-├── train.txt
-├── valid.txt
-└── classes.names
-```
-Then run ECP_preprocessing.sh scipt
+##### Preprocess ECP data
 
     $ bash ECP_preprocessing.sh
-    
-that will place images, labels and other configs in right places in this repo.
 
-##### Run actual training of YOLO
+##### Run custom YOLO training on ECP
 
     $ python train.py --model_def=config/yolov3-custom.cfg --data_config=config/custom.data --epochs=100 
 
