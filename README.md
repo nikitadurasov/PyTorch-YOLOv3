@@ -22,7 +22,13 @@ Then run ECP_preprocessing.sh scipt
 
     $ bash ECP_preprocessing.sh
     
-that will place images, labels and other configs in right places in this repo. 
+that will place images, labels and other configs in right places in this repo.
+
+##### Run actual training of YOLO
+
+    $ python train.py --model_def=config/yolov3-custom.cfg --data_config=config/custom.data --epochs=100 
+
+Refer to [train.py](https://github.com/nikitadurasov/PyTorch-YOLOv3/blob/master/train.py) --help for more information about training options, e.g. epochs, batch size, augmentations and etc.
 
 ## Installation
 ##### Clone and install requirements
