@@ -130,47 +130,47 @@ class ListDataset(Dataset):
         # Apply augmentations
         if self.augment:
             
-            img = img.permute(1, 2, 0).numpy()
-            img = (img * 255).astype('uint8')
+#             img = img.permute(1, 2, 0).numpy()
+#             img = (img * 255).astype('uint8')
             
-            transforms_list = Compose([
+#             transforms_list = Compose([
                 
-                RGBShift(p=0.2),
-                HueSaturationValue(p=0.2),
-                CLAHE(p=0.2),
+#                 RGBShift(p=0.2),
+#                 HueSaturationValue(p=0.2),
+#                 CLAHE(p=0.2),
                 
-                RandomContrast(p=0.2),
-                RandomGamma(p=0.2),
-                RandomBrightness(p=0.2),
+#                 RandomContrast(p=0.2),
+#                 RandomGamma(p=0.2),
+#                 RandomBrightness(p=0.2),
                 
-                Posterize(num_bits=3, p=0.2),
-                RandomSnow(p=0.2),
-                RandomSunFlare(p=0.2),
-                JpegCompression(quality_lower=0, p=0.2),
+#                 Posterize(num_bits=3, p=0.2),
+#                 RandomSnow(p=0.2),
+#                 RandomSunFlare(p=0.2),
+#                 JpegCompression(quality_lower=0, p=0.2),
                 
-                OneOf([
-                    Blur(p=0.2),
-                    MedianBlur(p=0.2),
-                    GaussianBlur(p=0.2)
-                ]),
+#                 OneOf([
+#                     Blur(p=0.2),
+#                     MedianBlur(p=0.2),
+#                     GaussianBlur(p=0.2)
+#                 ]),
                 
-                ChannelShuffle(p=0.2),
-                ToGray(p=0.2)
-            ])
+#                 ChannelShuffle(p=0.2),
+#                 ToGray(p=0.2)
+#             ])
             
-            img = transforms_list(image=img)['image']
-            img = img.astype('float32') / 255
-            img = torch.from_numpy(img).permute(2, 0, 1)
+#             img = transforms_list(image=img)['image']
+#             img = img.astype('float32') / 255
+#             img = torch.from_numpy(img).permute(2, 0, 1)
             
-#             if np.random.random() < 0.5:
-#                 img = transforms.ToPILImage(mode='RGB')(img)
-#                 img, targets = horizontal_flip(img, targets)
-#                 img = transforms.ToTensor()(img)
+            if np.random.random() < 0.5:
+                img = transforms.ToPILImage(mode='RGB')(img)
+                img, targets = horizontal_flip(img, targets)
+                img = transforms.ToTensor()(img)
                 
-#             if np.random.random() < 0.5:
-#                 img = transforms.ToPILImage(mode='RGB')(img)
-#                 img, targets = color_jitter(img, targets)
-#                 img = transforms.ToTensor()(img)
+            if np.random.random() < 0.5:
+                img = transforms.ToPILImage(mode='RGB')(img)
+                img, targets = color_jitter(img, targets)
+                img = transforms.ToTensor()(img)
 
         return img_path, img, targets
 
