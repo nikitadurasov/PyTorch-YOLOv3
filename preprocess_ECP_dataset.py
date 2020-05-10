@@ -1,6 +1,7 @@
 import shutil, os
 from skimage.io import imread, imsave
 from shutil import copyfile
+from tqdm import tqdm
 import json
 
 DAY_DATA_PATH = 'ECP/day/img/train/'
@@ -45,60 +46,60 @@ if not os.path.exists("data/custom/images/") and not os.path.exists("data/custom
     os.makedirs("data/custom/images/")
     os.makedirs("data/custom/labels/")
     
-######## copy data to images/ ########
-for i in range(len(day_city_names)):
-    for each in sorted(os.listdir(DAY_DATA_PATH + day_city_names[i])):
-        src_path = os.path.join(DAY_DATA_PATH, day_city_names[i], each)
-        dest_path = os.path.join(SAVE_DATA_PATH, "day_" + each)
-        copyfile(src_path, dest_path)
+# ######## copy data to images/ ########
+# for i in tqdm(range(len(day_city_names)), total=len(day_city_names)):
+#     for each in sorted(os.listdir(DAY_DATA_PATH + day_city_names[i])):
+#         src_path = os.path.join(DAY_DATA_PATH, day_city_names[i], each)
+#         dest_path = os.path.join(SAVE_DATA_PATH, "day_" + each)
+#         copyfile(src_path, dest_path)
                 
-######## copy data to images/ ########
-for i in range(len(night_city_names)):
-    for each in sorted(os.listdir(NIGHT_DATA_PATH + night_city_names[i])):
-        src_path = os.path.join(NIGHT_DATA_PATH, night_city_names[i], each)
-        dest_path = os.path.join(SAVE_DATA_PATH, "night_" + each)
-        copyfile(src_path, dest_path)
+# ######## copy data to images/ ########
+# for i in tqdm(range(len(night_city_names)), total=len(night_city_names)):
+#     for each in sorted(os.listdir(NIGHT_DATA_PATH + night_city_names[i])):
+#         src_path = os.path.join(NIGHT_DATA_PATH, night_city_names[i], each)
+#         dest_path = os.path.join(SAVE_DATA_PATH, "night_" + each)
+#         copyfile(src_path, dest_path)
         
-######## write to train.txt and valid.txt ########
-f1 = open("train.txt","w+")
-f2 = open("valid.txt","w+")
+# ######## write to train.txt and valid.txt ########
+# f1 = open("train.txt","w+")
+# f2 = open("valid.txt","w+")
 
-for i in range(len(day_city_names)):
-    for each in sorted(os.listdir(DAY_DATA_PATH + day_city_names[i])):
-        name = os.path.join('data/custom/images/', 'day_' + each)
-        if i<=28:
-            f1.write(name + '\n')
-        else:
-            f2.write(name + '\n')
+# for i in range(len(day_city_names)):
+#     for each in sorted(os.listdir(DAY_DATA_PATH + day_city_names[i])):
+#         name = os.path.join('data/custom/images/', 'day_' + each)
+#         if i<=28:
+#             f1.write(name + '\n')
+#         else:
+#             f2.write(name + '\n')
             
-f1.close()
-f2.close()
+# f1.close()
+# f2.close()
 
-######## write to train.txt and valid.txt ########
-f1 = open("train.txt","w+")
-f2 = open("valid.txt","w+")
+# ######## write to train.txt and valid.txt ########
+# f1 = open("train.txt","w+")
+# f2 = open("valid.txt","w+")
 
-for i in range(len(night_city_names)):
-    for each in sorted(os.listdir(NIGHT_DATA_PATH + night_city_names[i])):
-        name = os.path.join('data/custom/images/', 'night_' + each)
-        if i<=5:
-            f1.write(name + '\n')
-        else:
-            f2.write(name + '\n')
+# for i in range(len(night_city_names)):
+#     for each in sorted(os.listdir(NIGHT_DATA_PATH + night_city_names[i])):
+#         name = os.path.join('data/custom/images/', 'night_' + each)
+#         if i<=5:
+#             f1.write(name + '\n')
+#         else:
+#             f2.write(name + '\n')
             
-f1.close()
-f2.close()
+# f1.close()
+# f2.close()
 
-######## writing class.names ########
-f = open("classes.names","w+")
+# ######## writing class.names ########
+# f = open("classes.names","w+")
 
-for each in posible_classes:
-    f.write(each + '\n')
+# for each in posible_classes:
+#     f.write(each + '\n')
 
-f.close()
+# f.close()
 
 ######## make ECP labels compatible with repo format ########
-for i in range(len(day_city_names)):
+for i in tqdm(range(len(day_city_names)), total=len(day_city_names)):
     for each in sorted(os.listdir(DAY_LABELS_PATH + day_city_names[i])):
         file_name = os.path.join(DAY_LABELS_PATH, day_city_names[i], each)
         with open(file_name) as json_file:
@@ -109,6 +110,11 @@ for i in range(len(day_city_names)):
             image_height = data['imageheight']
             
             for obj in data['children']:
+                res = obj.get('identity', None)
+                
+                if res is None:
+                    continue
+                
                 label_idx = posible_classes.index(obj['identity'])
                 x_center = (obj['x0'] + obj['x1']) / 2 / image_width
                 width = (obj['x1'] - obj['x0']) / image_width
@@ -119,7 +125,7 @@ for i in range(len(day_city_names)):
             f.close()
             
 ######## make ECP labels compatible with repo format ########
-for i in range(len(night_city_names)):
+for i in tqdm(range(len(night_city_names)), total=len(night_city_names)):
     for each in sorted(os.listdir(NIGHT_LABELS_PATH + night_city_names[i])):
         file_name = os.path.join(NIGHT_LABELS_PATH, night_city_names[i], each)
         with open(file_name) as json_file:
@@ -130,6 +136,12 @@ for i in range(len(night_city_names)):
             image_height = data['imageheight'] 
                 
             for obj in data['children']:
+                
+                res = obj.get('identity', None)
+                
+                if res is None:
+                    continue
+                
                 label_idx = posible_classes.index(obj['identity'])
                 x_center = (obj['x0'] + obj['x1']) / 2 / image_width
                 width = (obj['x1'] - obj['x0']) / image_width

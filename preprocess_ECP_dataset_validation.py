@@ -72,6 +72,12 @@ for i in range(len(day_city_names)):
             image_height = data['imageheight']
             
             for obj in data['children']:
+                
+                res = obj.get('identity', None)
+                
+                if res is None:
+                    continue
+                
                 label_idx = posible_classes.index(obj['identity'])
                 x_center = (obj['x0'] + obj['x1']) / 2 / image_width
                 width = (obj['x1'] - obj['x0']) / image_width
@@ -93,6 +99,12 @@ for i in range(len(night_city_names)):
             image_height = data['imageheight'] 
                 
             for obj in data['children']:
+                
+                res = obj.get('identity', None)
+                
+                if res is None:
+                    continue
+                
                 label_idx = posible_classes.index(obj['identity'])
                 x_center = (obj['x0'] + obj['x1']) / 2 / image_width
                 width = (obj['x1'] - obj['x0']) / image_width
