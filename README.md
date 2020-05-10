@@ -23,6 +23,26 @@ that do both downloading and unzipping.
 
 Refer to [train.py](https://github.com/nikitadurasov/PyTorch-YOLOv3/blob/master/train.py) --help for more information about training options, e.g. epochs, batch size, augmentations and etc.
 
+## ECP dataset testing
+For training you need Images Valid (Day/Night), Annotations Valid (Day/Night) from https://eurocity-dataset.tudelft.nl/
+
+##### Download ECP validation data
+
+    $ wget --auth-no-challenge --user=USER --password=PASS --output-document=FILE
+    
+Unzip downloaded .zip files and place unzipped ECP directory into this repo root or just use 
+
+    $ bash ECP_preprocessing_valid.sh USER PASS
+    
+##### Preprocess ECP validation data
+
+    $ bash ECP_preprocessing_validation.sh
+    
+
+##### Run model testing on ECP validation
+
+    $ python test.py --model_def=config/yolov3-custom.cfg --data_config=config/custom_validation.data --class_path=data/custom/classes.names --weights_path=<YOUR CHECKPOINT FROM checkpoints/>
+
 ## Installation
 ##### Clone and install requirements
     $ git clone https://github.com/eriklindernoren/PyTorch-YOLOv3
