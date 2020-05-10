@@ -18,7 +18,11 @@ PyTorch-YOLOv3
 ├── valid.txt
 └── classes.names
 ```
-Then run ECP_preprocessing.sh scipt 
+Then run ECP_preprocessing.sh scipt
+
+    $ bash ECP_preprocessing.sh
+    
+that will place images, labels and other configs in right places in this repo. 
 
 ## Installation
 ##### Clone and install requirements
