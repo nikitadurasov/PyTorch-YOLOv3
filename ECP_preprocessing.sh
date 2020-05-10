@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-python preprocess_ECP_dataset.py.
+python preprocess_ECP_dataset.py
 
 mv images/* data/custom/images/
 mv labels/* data/custom/labels/
