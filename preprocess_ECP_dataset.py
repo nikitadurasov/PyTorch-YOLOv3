@@ -36,9 +36,15 @@ posible_classes = ["pedestrian",
 SAVE_DATA_PATH = 'images/'
 SAVE_LABELS_PATH = 'labels/'
 
+######## creating temp directories for data ########
 if not os.path.exists(SAVE_DATA_PATH) and not os.path.exists(SAVE_LABELS_PATH):
     os.makedirs(SAVE_DATA_PATH)
     os.makedirs(SAVE_LABELS_PATH)
+    
+######## creating original directories for data in repo ########
+if not os.path.exists("data/custom/images/") and not os.path.exists("data/custom/labels/"):
+    os.makedirs("data/custom/images/")
+    os.makedirs("data/custom/labels/")
     
 ######## copy data to images/ ########
 for i in tqdm(range(len(day_city_names))):
