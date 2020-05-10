@@ -6,6 +6,19 @@ A minimal PyTorch implementation of YOLOv3, with support for training, inference
 For training you need Images Train (Day/Night), Annotations Train (Day/Night) from https://eurocity-dataset.tudelft.nl/
 
     $ wget --auth-no-challenge --user=USER --password=PASS --output-document=FILE
+    
+Unzip downloaded .zip files and place unzipped ECP directory into this repo root. Then run [preprocess_ECP_dataset.py](https://github.com/nikitadurasov/PyTorch-YOLOv3/blob/master/preprocess_ECP_dataset.py).
+
+This script will generate several files and directories: 
+```bash
+PyTorch-YOLOv3 
+├── images/
+├── labels/
+├── train.txt
+├── valid.txt
+└── classes.names
+```
+Then run ECP_preprocessing.sh scipt 
 
 ## Installation
 ##### Clone and install requirements
