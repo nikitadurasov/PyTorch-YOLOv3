@@ -1,6 +1,12 @@
 # PyTorch-YOLOv3
 A minimal PyTorch implementation of YOLOv3, with support for training, inference and evaluation.
 
+## ECP dataset custom training 
+##### Download ECP data 
+For training you need Images Train (Day/Night), Annotations Train (Day/Night) from https://eurocity-dataset.tudelft.nl/
+
+    $ wget --auth-no-challenge --user=USER --password=PASS --output-document=FILE
+
 ## Installation
 ##### Clone and install requirements
     $ git clone https://github.com/eriklindernoren/PyTorch-YOLOv3
