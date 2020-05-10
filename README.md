@@ -9,7 +9,7 @@ For training you need Images Train (Day/Night), Annotations Train (Day/Night) fr
     
 Unzip downloaded .zip files and place unzipped ECP directory into this repo root or just use 
 
-    $ bash ECP_preprocessing.sh USER PASS
+    $ bash ECP_downloading.sh USER PASS
     
 that do both downloading and unzipping.
 
@@ -32,7 +32,7 @@ For training you need Images Valid (Day/Night), Annotations Valid (Day/Night) fr
     
 Unzip downloaded .zip files and place unzipped ECP directory into this repo root or just use 
 
-    $ bash ECP_preprocessing_valid.sh USER PASS
+    $ bash ECP_downloading_valid.sh USER PASS
     
 ##### Preprocess ECP validation data
 
