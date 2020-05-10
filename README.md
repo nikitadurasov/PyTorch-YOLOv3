@@ -27,7 +27,7 @@ Refer to [train.py](https://github.com/nikitadurasov/PyTorch-YOLOv3/blob/master/
 For training you need Images Valid (Day/Night), Annotations Valid (Day/Night) from https://eurocity-dataset.tudelft.nl/
 ##### Pretrained weights 
 
-For pretrained model weights refer to https://drive.google.com/open?id=1rd3y5wS7qzinggTMQKRvljD_pUW1Kq8d
+For pretrained (best) model weights refer to https://drive.google.com/open?id=1rd3y5wS7qzinggTMQKRvljD_pUW1Kq8d
 
 ##### Download ECP validation data
 
